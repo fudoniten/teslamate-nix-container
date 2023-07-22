@@ -158,8 +158,8 @@ in {
         postgresEnvFile = hostSecrets.teslaMatePostgresEnv.target-file;
         grafanaEnvFile = hostSecrets.teslaMateGrafanaEnv.target-file;
         teslaMateUid = config.users.users.tesla-mate.uid;
-        teslaMatePostgresUid = config.users.users.tesla-mate-postgres.uid;
-        teslaMateGrafanaUid = config.users.users.tesla-mate-grafana.uid;
+        postgresUid = config.users.users.tesla-mate-postgres.uid;
+        grafanaUid = config.users.users.tesla-mate-grafana.uid;
       };
     in { imports = [ teslaMateImage ]; };
   };
