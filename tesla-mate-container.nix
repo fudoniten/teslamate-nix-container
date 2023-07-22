@@ -145,7 +145,6 @@ in {
 
     virtualisation = {
       arion = {
-        backend = "podman-socket";
         projects.teslamate.settings = let
           teslaMateImage = makeTeslaMateImage {
             teslaMateImage = cfg.images.tesla-mate;
