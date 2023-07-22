@@ -126,6 +126,7 @@ in {
           DATABASE_USER = "teslamate";
           DATABASE_PASS = teslaMateDbPass;
           DATABASE_HOST = "postgres";
+          DATABASE_NAME = "teslamate";
           MQTT_HOST = cfg.mqtt.host;
           MQTT_PORT = cfg.mqtt.port;
           MQTT_USERNAME = cfg.mqtt.user;
