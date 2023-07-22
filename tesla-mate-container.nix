@@ -24,7 +24,7 @@ let
             restart = "always";
             volumes = [ "${stateDirectory}/import:/opt/app/import" ];
             ports = [ "4000:4000" ];
-            user = [ "${teslaMateUid}:${teslaMateUid}" ];
+            user = [ "${toString teslaMateUid}:${toString teslaMateUid}" ];
             env_file = [ teslaMateEnvFile ];
             cap_drop = "all";
           };
@@ -35,7 +35,7 @@ let
             restart = "always";
             volumes = [ "${stateDirectory}/postgres:/var/lib/postgresql/data" ];
             env_file = [ postgresEnvFile ];
-            user = [ "${postgresUid}:${postgresUid}" ];
+            user = [ "${toString postgresUid}:${toString postgresUid}" ];
           };
         };
         grafana = {
@@ -44,7 +44,7 @@ let
             restart = "always";
             volumes = [ "${stateDirectory}/grafana:/var/lib/grafana" ];
             env_file = [ grafanaEnvFile ];
-            user = [ "${grafanaUid}:${grafanaUid}" ];
+            user = [ "${toString grafanaUid}:${toString grafanaUid}" ];
             ports = [ "3000:3000" ];
           };
         };
