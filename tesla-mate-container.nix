@@ -13,8 +13,9 @@ let
     in pkgs.writeText "envFile" (concatStringsSep "\n" envLines);
 
   makeTeslaMateImage = { teslaMateImage, postgresImage, grafanaImage
-    , teslaMateEnvFile, postgresEnvFile, grafanaEnvFile, teslaMateUid
-    , postgresUid, grafanaUid, stateDirectory, ... }:
+    , teslaMatePort, grafanaPort, teslaMateEnvFile, postgresEnvFile
+    , grafanaEnvFile, teslaMateUid, postgresUid, grafanaUid, stateDirectory, ...
+    }:
     { pkgs, ... }: {
       project.name = "teslamate";
       services = {
@@ -23,7 +24,7 @@ let
             image = teslaMateImage;
             restart = "always";
             volumes = [ "${stateDirectory}/import:/opt/app/import" ];
-            ports = [ "4000:4000" ];
+            ports = [ "${toString teslaMatePort}:4000" ];
             user = "${toString teslaMateUid}:${toString teslaMateUid}";
             env_file = [ teslaMateEnvFile ];
             capabilities.ALL = false;
@@ -45,7 +46,7 @@ let
             volumes = [ "${stateDirectory}/grafana:/var/lib/grafana" ];
             env_file = [ grafanaEnvFile ];
             user = "${toString grafanaUid}:${toString grafanaUid}";
-            ports = [ "3000:3000" ];
+            ports = [ "${toString grafanaPort}:3000" ];
           };
         };
       };
@@ -92,6 +93,16 @@ in {
         description =
           "Password with which to authenticate with the MQTT server.";
       };
+    };
+
+    port = mkOption {
+      type = port;
+      description = "Local port on which to listen for TeslaMate requests.";
+    };
+
+    grafana-port = mkOption {
+      type = port;
+      description = "Local port on which to listen for Grafana requests.";
     };
 
     state-directory = mkOption {
@@ -164,6 +175,8 @@ in {
         teslaMateImage = cfg.images.tesla-mate;
         postgresImage = cfg.images.postgres;
         grafanaImage = cfg.images.grafana;
+        teslaMatePort = cfg.port;
+        grafanaPort = cfg.grafana-port;
         stateDirectory = cfg.state-directory;
         teslaMateEnvFile = hostSecrets.teslaMateEnv.target-file;
         postgresEnvFile = hostSecrets.teslaMatePostgresEnv.target-file;
