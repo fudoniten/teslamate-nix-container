@@ -40,7 +40,7 @@ let
       };
     };
 in {
-  options.services.telsaMateContainer = with types; {
+  options.services.teslaMateContainer = with types; {
     enable = mkEnableOption "Enable TeslaMate in a PodMan container.";
 
     images = {
