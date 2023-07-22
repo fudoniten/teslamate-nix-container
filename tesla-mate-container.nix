@@ -143,23 +143,19 @@ in {
       };
     };
 
-    virtualisation = {
-      arion = {
-        projects.teslamate.settings = let
-          teslaMateImage = makeTeslaMateImage {
-            teslaMateImage = cfg.images.tesla-mate;
-            postgresImage = cfg.images.postgres;
-            grafanaImage = cfg.images.grafana;
-            stateDirectory = cfg.state-directory;
-            teslaMateEnvFile = hostSecrets.teslaMateEnv.target-file;
-            postgresEnvFile = hostSecrets.teslaMatePostgresEnv.target-file;
-            grafanaEnvFile = hostSecrets.teslaMateGrafanaEnv.target-file;
-            teslaMateUid = config.users.users.tesla-mate.uid;
-            teslaMatePostgresUid = config.users.users.tesla-mate-postgres.uid;
-            teslaMateGrafanaUid = config.users.users.tesla-mate-grafana.uid;
-          };
-        in { imports = [ teslaMateImage ]; };
+    virtualisation.arion.projects.teslamate.settings = let
+      teslaMateImage = makeTeslaMateImage {
+        teslaMateImage = cfg.images.tesla-mate;
+        postgresImage = cfg.images.postgres;
+        grafanaImage = cfg.images.grafana;
+        stateDirectory = cfg.state-directory;
+        teslaMateEnvFile = hostSecrets.teslaMateEnv.target-file;
+        postgresEnvFile = hostSecrets.teslaMatePostgresEnv.target-file;
+        grafanaEnvFile = hostSecrets.teslaMateGrafanaEnv.target-file;
+        teslaMateUid = config.users.users.tesla-mate.uid;
+        teslaMatePostgresUid = config.users.users.tesla-mate-postgres.uid;
+        teslaMateGrafanaUid = config.users.users.tesla-mate-grafana.uid;
       };
-    };
+    in { imports = [ teslaMateImage ]; };
   };
 }
