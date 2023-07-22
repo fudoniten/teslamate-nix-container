@@ -26,7 +26,7 @@ let
             ports = [ "4000:4000" ];
             user = "${toString teslaMateUid}:${toString teslaMateUid}";
             env_file = [ teslaMateEnvFile ];
-            cap_drop = "all";
+            capabilities.ALL = false;
           };
         };
         postgres = {
