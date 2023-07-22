@@ -2,7 +2,7 @@
 
 with lib;
 let
-  cfg = canfig.services.teslaMateContainer;
+  cfg = config.services.teslaMateContainer;
 
   hostSecrets = config.fudo.secrets.host-secrets."${config.instance.hostname}";
 
