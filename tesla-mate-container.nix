@@ -12,8 +12,9 @@ let
         mapAttrsToList (var: val: ''${var}="${toString val}"'') envVars;
     in pkgs.writeText "envFile" (concatStringsSep "\n" envLines);
 
-  makeTeslaMateImage =
-    { teslaMateImage, postgresImage, grafanaImage, stateDirectory, ... }:
+  makeTeslaMateImage = { teslaMateImage, postgresImage, grafanaImage
+    , teslaMateEnvFile, postgresEnvFile, grafanaEnvFile, teslaMateUid
+    , postgresUid, grafanaUid, stateDirectory, ... }:
     { pkgs, ... }: {
       project.name = "teslamate";
       services = {
@@ -22,6 +23,8 @@ let
           restart = "always";
           volumes = [ "${stateDirectory}/import:/opt/app/import" ];
           ports = [ "4000:4000" ];
+          user = [ "${teslaMateUid}:${teslaMateUid}" ];
+          env_file = [ teslaMateEnvFile ];
           cap_drop = "all";
         };
         postgres = {
@@ -29,12 +32,14 @@ let
           restart = "always";
           volumes = [ "${stateDirectory}/postgres:/var/lib/postgresql/data" ];
           env_file = [ postgresEnvFile ];
+          user = [ "${postgresUid}:${postgresUid}" ];
         };
         grafana = {
           image = grafanaImage;
           restart = "always";
           volumes = [ "${stateDirectory}/grafana:/var/lib/grafana" ];
           env_file = [ grafanaEnvFile ];
+          user = [ "${grafanaUid}:${grafanaUid}" ];
           ports = [ "3000:3000" ];
         };
       };
