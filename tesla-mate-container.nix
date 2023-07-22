@@ -93,6 +93,11 @@ in {
           "Password with which to authenticate with the MQTT server.";
       };
     };
+
+    state-directory = mkOption {
+      type = str;
+      description = "Path at which to store service state.";
+    };
   };
 
   config = mkIf cfg.enable {
