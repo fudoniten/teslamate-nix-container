@@ -170,6 +170,18 @@ in {
       };
     };
 
+    systemd.tmpfiles.rules = [
+      "d ${cfg.state-directory}/import 0700 ${
+        toString config.users.users.tesla-mate.uid
+      } root - -"
+      "d ${cfg.state-directory}/postgres 0700 ${
+        toString config.users.users.tesla-mate-postgres.uid
+      } root - -"
+      "d ${cfg.state-directory}/grafana 0700 ${
+        toString config.users.users.tesla-mate-grafana.uid
+      } root - -"
+    ];
+
     virtualisation.arion.projects.teslamate.settings = let
       teslaMateImage = makeTeslaMateImage {
         teslaMateImage = cfg.images.tesla-mate;
