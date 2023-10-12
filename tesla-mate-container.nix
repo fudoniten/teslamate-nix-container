@@ -28,6 +28,7 @@ let
             user = "${toString teslaMateUid}:${toString teslaMateUid}";
             env_file = [ teslaMateEnvFile ];
             capabilities.ALL = false;
+            depends_on = { postgres.condition = "service_healthy"; };
           };
         };
         postgres = {
@@ -37,6 +38,13 @@ let
             volumes = [ "${stateDirectory}/postgres:/var/lib/postgresql/data" ];
             env_file = [ postgresEnvFile ];
             user = "${toString postgresUid}:${toString postgresUid}";
+            healthcheck = {
+              test = [ "CMD" "pg_isready" "-U" "lemmy" "-d" "lemmy" ];
+              start_period = "20s";
+              interval = "30s";
+              retries = 5;
+              timeout = "3s";
+            };
           };
         };
         grafana = {
@@ -47,6 +55,7 @@ let
             env_file = [ grafanaEnvFile ];
             user = "${toString grafanaUid}:${toString grafanaUid}";
             ports = [ "${toString grafanaPort}:3000" ];
+            depends_on = [ "teslamate" ];
           };
         };
       };
@@ -189,7 +198,6 @@ in {
           [ "fudo-secrets.target" "network-online.target" "podman.service" ];
         requires = [ "network-online.target" "podman.service" ];
       };
-
     };
 
     virtualisation.arion.projects.teslamate.settings = let
