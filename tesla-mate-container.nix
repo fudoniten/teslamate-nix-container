@@ -23,12 +23,10 @@ let
           service = {
             image = teslaMateImage;
             restart = "always";
-            volumes = [ "${stateDirectory}/import:/opt/app/import" ];
             ports = [ "${toString teslaMatePort}:4000" ];
-            user = "${toString teslaMateUid}:${toString teslaMateUid}";
             env_file = [ teslaMateEnvFile ];
             capabilities.ALL = false;
-            depends_on = { postgres.condition = "service_healthy"; };
+            depends_on.postgres.condition = "service_healthy";
           };
         };
         postgres = {
