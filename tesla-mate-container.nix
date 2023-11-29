@@ -39,7 +39,7 @@ let
             env_file = [ postgresEnvFile ];
             user = "${toString postgresUid}:${toString postgresUid}";
             healthcheck = {
-              test = [ "CMD" "pg_isready" "-U" "lemmy" "-d" "lemmy" ];
+              test = [ "CMD" "pg_isready" "-U" "teslamate" "-d" "teslamate" ];
               start_period = "20s";
               interval = "30s";
               retries = 5;
