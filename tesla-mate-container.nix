@@ -160,22 +160,26 @@ in {
       };
     };
 
-    users.users = {
-      tesla-mate = {
-        isSystemUser = true;
-        group = "tesla-mate";
-        uid = 720;
+    users = {
+      users = {
+        tesla-mate = {
+          isSystemUser = true;
+          group = "tesla-mate";
+          uid = 720;
+        };
+        tesla-mate-postgres = {
+          isSystemUser = true;
+          group = "tesla-mate";
+          uid = 721;
+        };
+        tesla-mate-grafana = {
+          isSystemUser = true;
+          group = "tesla-mate";
+          uid = 722;
+        };
       };
-      tesla-mate-postgres = {
-        isSystemUser = true;
-        group = "tesla-mate";
-        uid = 721;
-      };
-      tesla-mate-grafana = {
-        isSystemUser = true;
-        group = "tesla-mate";
-        uid = 722;
-      };
+      groups.tesla-mate.members =
+        [ "tesla-mate" "tesla-mate-postgres" "tesla-mate-grafana" ];
     };
 
     systemd = {
