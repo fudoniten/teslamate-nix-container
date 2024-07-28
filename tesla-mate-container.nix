@@ -2,7 +2,7 @@
 
 with lib;
 let
-  cfg = config.services.teslaMateContainer;
+  cfg = config.services.teslamateContainer;
 
   hostSecrets = config.fudo.secrets.host-secrets."${config.instance.hostname}";
 
@@ -59,7 +59,7 @@ let
       };
     };
 in {
-  options.services.teslaMateContainer = with types; {
+  options.services.teslamateContainer = with types; {
     enable = mkEnableOption "Enable TeslaMate in a PodMan container.";
 
     images = {
@@ -105,11 +105,13 @@ in {
     port = mkOption {
       type = port;
       description = "Local port on which to listen for TeslaMate requests.";
+      default = 5447;
     };
 
     grafana-port = mkOption {
       type = port;
       description = "Local port on which to listen for Grafana requests.";
+      default = 5402;
     };
 
     state-directory = mkOption {
